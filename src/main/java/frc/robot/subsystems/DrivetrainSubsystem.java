@@ -11,15 +11,19 @@ import com.kauailabs.navx.frc.AHRS;
 import com.swervedrivespecialties.swervelib.*;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.*;
@@ -54,7 +58,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
           Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
-  private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+  public final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
           // Front left
           new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
           // Front right
@@ -78,6 +82,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SwerveModule m_frontRightModule;
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
+
+  private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(m_kinematics, new Rotation2d(0));
 
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -186,10 +192,29 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_chassisSpeeds = chassisSpeeds;
   }
 
+  public double getHeading() {
+    return Math.IEEEremainder(m_navx.getAngle(), 360);
+  }
+
+  public Rotation2d getRotation2d() {
+    return Rotation2d.fromDegrees(getHeading());
+  }
+
+  public Pose2d getPose() {
+    return odometer.getPoseMeters();
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    odometer.resetPosition(pose, getRotation2d());
+  }
+
   @Override
   public void periodic() {
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+
+    odometer.update(getRotation2d(), states[0], states[1], states[2], states[3]);
+    SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
     m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
     m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
