@@ -31,6 +31,7 @@ public final class Constants {
 
     public static final double MAX_ACCELERATION_METERS_PER_SEC_SQUARED = 3;
     public static final double MAX_ANGULAR_SPEED_RADIANS_PER_SEC = DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
     public static final double PX_CONTROLLER = 1.5;
     public static final double PY_CONTROLLER = 1.5;
     public static final double PTHETA_CONTROLLER = 3;

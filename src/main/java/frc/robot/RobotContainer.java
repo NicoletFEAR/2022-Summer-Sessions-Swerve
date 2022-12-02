@@ -21,6 +21,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.DefaultDriveCommand;
@@ -38,6 +39,7 @@ public class RobotContainer {
 
   private final XboxController m_controller = new XboxController(0);
 
+  private List list;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -77,18 +79,18 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand(Object List) {
+  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     // 1. Create trajectory settings
     TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-      m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+      Constants.MAX_VELOCITY_METERS_PER_SECOND,
       Constants.MAX_ACCELERATION_METERS_PER_SEC_SQUARED)
               .setKinematics(m_drivetrainSubsystem.m_kinematics);
 
     // 2. Generate trajectory
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0, 0, new Rotation2d(0)),
-      ((Object) List).of(
+      List.of(
               new Translation2d(1, 0),
               new Translation2d(1, -1)),
       new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
@@ -96,7 +98,7 @@ public class RobotContainer {
 
     // 3. Define PID controllers for tracking trajectory
     PIDController xController = new PIDController(Constants.PX_CONTROLLER, 0, 0);
-    PIDController yController = new PIDController(Constants.PY_CONTROLLER), 0, 0);
+    PIDController yController = new PIDController(Constants.PY_CONTROLLER, 0, 0);
     ProfiledPIDController thetaController = new ProfiledPIDController(
           Constants.PTHETA_CONTROLLER, 0, 0, Constants.THETA_CONTROLLER_CONSTRAINTS);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
@@ -114,9 +116,9 @@ public class RobotContainer {
 
     // 5. Add some init and wrap-up, and return everything
     return new SequentialCommandGroup(
-          new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
+          new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(trajectory.getInitialPose())),
           swerveControllerCommand,
-          new InstantCommand(() -> swerveSubsystem.stopModules()));
+          new InstantCommand(() -> m_drivetrainSubsystem.stop()));
 
   }
 
