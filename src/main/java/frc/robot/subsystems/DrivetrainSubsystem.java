@@ -156,6 +156,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
     );
   }
 
+  public double getFrontRightEncoder() {
+        return m_frontRightModule.getSteerAngle();
+  }
+
+  public double getFrontLeftEncoder() {
+        return m_frontLeftModule.getSteerAngle();
+  }
+
+  public double getBackRightEncoder() {
+        return m_backRightModule.getSteerAngle();
+  }
+
+  public double getBackLeftEncoder() {
+        return m_backLeftModule.getSteerAngle();
+  }
+
   /**
    * Sets the gyroscope angle to zero. This can be used to set the direction the robot is currently facing to the
    * 'forwards' direction.
