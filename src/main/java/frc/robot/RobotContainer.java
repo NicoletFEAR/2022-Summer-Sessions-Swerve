@@ -24,7 +24,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   final static DrivetrainSubsystem m_drivebase = new DrivetrainSubsystem();
-  private final CommandXboxController xbox0 = new CommandXboxController(0);
+  static final CommandXboxController xbox0 = new CommandXboxController(0);
   Trigger backButton = xbox0.back();
 
   /**
@@ -68,6 +68,18 @@ public class RobotContainer {
     return new InstantCommand();
   }
 
+  public static double getXbox0LeftY() {
+    return xbox0.getLeftY();
+  }
+
+  public static double getXbox0LeftX() {
+    return xbox0.getLeftX();
+  }
+
+  public static double getXbox0RightX() {
+    return xbox0.getRightX();
+  }
+
   private static double deadband(double value, double deadband) {
     if (Math.abs(value) > deadband) {
       if (value > 0.0) {
@@ -80,11 +92,11 @@ public class RobotContainer {
     }
   }
 
-  private static double modifyAxis(double value) {
+  public static double modifyAxis(double value) {
     // Deadband
-    value = deadband(value, 0.025);
+    value = deadband(value, 0.03);
 
-    // Square the axis
+    // Square the axis but keeps the negative if it's negative
     value = Math.copySign(value * value, value);
 
     return value;

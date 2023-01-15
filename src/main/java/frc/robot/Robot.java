@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Front Left Encoder", m_drivebase.getFrontLeftEncoder() * (Math.PI / 180));
     SmartDashboard.putNumber("Back Right Encoder", m_drivebase.getBackRightEncoder() * (Math.PI / 180));
     SmartDashboard.putNumber("Back Left Encoder", m_drivebase.getBackLeftEncoder() * (Math.PI / 180));
+    SmartDashboard.putNumber("Gyroscope Rotation", m_drivebase.getGyroscopeRotation().getDegrees()-180);
 
   }
 
