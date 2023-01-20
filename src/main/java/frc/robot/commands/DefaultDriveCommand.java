@@ -35,14 +35,18 @@ public class DefaultDriveCommand extends CommandBase {
     @Override
     public void execute() {
         drift = (m_drivetrainSubsystem.getGyroscopeRotation().getDegrees()-180 - previousAngle);
-        if (Math.abs(RobotContainer.getXbox0LeftX()) > 0.03 && Math.abs(RobotContainer.getXbox0LeftY()) > 0.03 && Math.abs(RobotContainer.getXbox0RightX()) < 0.03 ) {
-            if (drift <= 180) {
-                calculatedRotation = drift;
-            } else {
-                calculatedRotation = -drift;
-            }
-        }
+        // what do we want the angle to be [], and what it is
+        // if (Math.abs(RobotContainer.getXbox0LeftX()) > 0.03 && Math.abs(RobotContainer.getXbox0LeftY()) > 0.03 && Math.abs(RobotContainer.getXbox0RightX()) < 0.03 ) {
+        //     if (drift <= 180) {
+        //         // calculatedRotation = -drift;
+        //     } else {
+        //         // calculatedRotation = drift;
+        //     }
+        // }
+        
+        //if (m_rotationSupplier.getAsDouble() < .1) calculatedRotation = .3;
 
+        SmartDashboard.putNumber("previous angle", previousAngle);
         SmartDashboard.putNumber("drift", drift);
         SmartDashboard.putNumber("calculatedRotation", calculatedRotation);
 
@@ -56,7 +60,9 @@ public class DefaultDriveCommand extends CommandBase {
                 )
         );
 
+        calculatedRotation = 0;
         previousAngle = m_drivetrainSubsystem.getGyroscopeRotation().getDegrees()-180; // get to zero
+        SmartDashboard.putNumber("current angle", previousAngle);
     }
 
     @Override
