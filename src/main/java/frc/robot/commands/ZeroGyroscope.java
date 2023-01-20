@@ -21,6 +21,7 @@ public class ZeroGyroscope extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivebase.zeroGyroscope();
+    drivebase.zeroGyroscope(); 
+    System.out.println("zeroing gyro");
   }
 }
