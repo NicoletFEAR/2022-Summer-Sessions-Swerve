@@ -19,12 +19,16 @@ public class AutoDriveTest extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_drivebase.driveDirection(x_speed, y_speed);
+    System.out.println("running init");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivebase.driveDirection(x_speed, y_speed);
+    // m_drivebase.driveDirection(x_speed, y_speed);
+    System.out.println("running execute");
   }
 
   @Override

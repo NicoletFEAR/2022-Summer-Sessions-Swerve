@@ -34,6 +34,13 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     m_drivebase = RobotContainer.m_drivebase;
+
+    m_drivebase.m_frontLeftModule.set(0.0, Constants.FRONT_LEFT_MODULE_STEER_OFFSET);
+    m_drivebase.m_frontRightModule.set(0.0, Constants.FRONT_RIGHT_MODULE_STEER_OFFSET);
+    m_drivebase.m_backLeftModule.set(0.0, Constants.BACK_LEFT_MODULE_STEER_OFFSET);
+    m_drivebase.m_backRightModule.set(0.0, Constants.BACK_RIGHT_MODULE_STEER_OFFSET);
+    m_drivebase.zeroGyroscope();
+    
   }
 
   /**

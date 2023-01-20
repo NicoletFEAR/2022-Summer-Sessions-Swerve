@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.SwerveAutoMk1;
 import frc.robot.commands.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -26,6 +27,7 @@ public class RobotContainer {
   final static DrivetrainSubsystem m_drivebase = new DrivetrainSubsystem();
   static final CommandXboxController xbox0 = new CommandXboxController(0);
   Trigger backButton = xbox0.back();
+  
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -33,9 +35,9 @@ public class RobotContainer {
   public RobotContainer() {
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
-    // Left stick Y axis -> forward and backwards movement
-    // Left stick X axis -> left and right movement
-    // Right stick X axis -> rotation
+    //  Left stick Y axis -> forward and backwards movement
+    //  Left stick X axis -> left and right movement
+    //  Right stick X axis -> rotation
     m_drivebase.setDefaultCommand(new DefaultDriveCommand(
             m_drivebase,
             () -> modifyAxis(xbox0.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
@@ -56,6 +58,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     backButton.onTrue(new ZeroGyroscope(m_drivebase));
+    xbox0.y().onTrue(new SwerveAutoMk1(m_drivebase));
   }
 
   /**
