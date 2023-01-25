@@ -19,6 +19,7 @@ public final class Constants {
      * Should be measured from center to center.
      */
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.47625; // FIXME Measure and set trackwidth
+    
     /**
      * The front-to-back distance between the drivetrain wheels.
      *
@@ -26,7 +27,7 @@ public final class Constants {
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.47625; // FIXME Measure and set wheelbase
 
-    public static final int DRIVETRAIN_PIGEON_ID = 0; // FIXME Set Pigeon ID
+    // public static final int DRIVETRAIN_PIGEON_ID = 0; // FIXME Set Pigeon ID
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 12; 
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 11; 
