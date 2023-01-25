@@ -21,8 +21,11 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 import static frc.robot.Constants.*;
+
+import java.util.function.DoubleSupplier;
 
 public class DrivetrainSubsystem extends SubsystemBase {
   /**
@@ -202,11 +205,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_chassisSpeeds = chassisSpeeds;
   }
 
-  public void driveDirection(double xTranslation, double yTranslation) {
-        m_chassisSpeeds = new ChassisSpeeds(xTranslation, yTranslation, 0.0);
+  public void driveDirection(double xSpeed, double ySpeed) {
+        m_chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, 0.0);
   }
 
-  public void stopMotors(){
+  public void driveDirection(double xSpeed, double ySpeed, double rotation) {
+        DoubleSupplier m_translationXSupplier = () -> RobotContainer.modifyAxis(xSpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+        DoubleSupplier m_translationYSupplier = () -> RobotContainer.modifyAxis(ySpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+        DoubleSupplier m_rotationSupplier = () -> RobotContainer.modifyAxis(rotation) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+  }
+
+  public void stopMotors() {
         m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
   }
 

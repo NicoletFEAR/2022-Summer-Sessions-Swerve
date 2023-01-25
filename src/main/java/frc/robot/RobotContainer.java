@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.*;
+import frc.robot.commands.AutoDrive;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.SwerveAutoMk1;
+import frc.robot.commands.DriveDirection;
 import frc.robot.commands.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -58,7 +59,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     backButton.onTrue(new ZeroGyroscope(m_drivebase));
-    xbox0.y().onTrue(new SwerveAutoMk1(m_drivebase));
+    xbox0.y().onTrue(new AutoDrive(m_drivebase));
+    xbox0.x().whileTrue(new DriveDirection(m_drivebase, 0.0, 0.5, 0.0));
   }
 
   /**

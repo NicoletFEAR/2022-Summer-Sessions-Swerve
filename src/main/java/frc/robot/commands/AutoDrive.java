@@ -10,14 +10,13 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SwerveAutoMk1 extends SequentialCommandGroup {
-  /** Creates a new SwerveAutoMk1. */
-  public SwerveAutoMk1(DrivetrainSubsystem dts) {
+public class AutoDrive extends SequentialCommandGroup {
+  /** Creates a new AutoDrive. */
+  public AutoDrive(DrivetrainSubsystem m_drivebase) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ZeroGyroscope(dts),
-      new AutoDriveTest(dts, 0.3, 0.0).withTimeout(5.0)
+      new DriveDirection(m_drivebase, 0.5, 0, 0).withTimeout(5)
     );
   }
 }
