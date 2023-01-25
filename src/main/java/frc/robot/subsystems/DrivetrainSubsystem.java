@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 import static frc.robot.Constants.*;
@@ -205,6 +206,43 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_chassisSpeeds = chassisSpeeds;
   }
 
+  /**
+   * Takes desired x and y distance in feet and time in seconds and calculates required xSpeed and ySpeed to travel that distance in that time)
+   * 
+   * @param xDistance
+   * @param yDistance
+   * @param time
+   */
+  public void driveDistance(double xDistance, double yDistance, double time) {
+        // 1: calculate xSpeed and ySpeed based on time
+        double xSpeedMetersPerSecond = toMeters(xDistance) / time;
+        double ySpeedMetersPerSecond = toMeters(yDistance) / time;
+
+        DoubleSupplier m_translationXSupplier = () -> RobotContainer.modifyAxis(xSpeedMetersPerSecond) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+        DoubleSupplier m_translationYSupplier = () -> RobotContainer.modifyAxis(ySpeedMetersPerSecond) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+        DoubleSupplier m_rotationSupplier = () -> RobotContainer.modifyAxis(0.0) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+
+        m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                        m_translationXSupplier.getAsDouble(),
+                        m_translationYSupplier.getAsDouble(),
+                        m_rotationSupplier.getAsDouble(),
+                        getGyroscopeRotation()
+        );
+
+  }
+
+  public double toMeters(double feet) {
+        return feet * .3048;
+  }
+
+  /**
+   * Positive x is right, positive y is forward. Use with .withTimeout() in SequentialCommandGroup to drive. 
+   * Converts doubles to DoubleSuppliers so they can be put in ChassisSpeeds.
+   * 
+   * @param xSpeed
+   * @param ySpeed
+   * @param rotation
+   */
   public void driveDirection(double xSpeed, double ySpeed, double rotation) {
         DoubleSupplier m_translationXSupplier = () -> RobotContainer.modifyAxis(xSpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
         DoubleSupplier m_translationYSupplier = () -> RobotContainer.modifyAxis(ySpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;

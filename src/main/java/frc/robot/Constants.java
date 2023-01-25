@@ -27,6 +27,16 @@ public final class Constants {
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = 0.47625; // FIXME Measure and set wheelbase
 
+    /**
+     * The diameter of a wheel in feet
+     */
+    public static final double DRIVETRAIN_WHEEL_DIAMETER = 4.0/12.0;
+
+    /**
+     * The circumference of a wheel in feet
+     */
+    public static final double DRIVETRAIN_WHEEL_CIRCUMFERENCE = Math.PI * DRIVETRAIN_WHEEL_DIAMETER;
+
     // public static final int DRIVETRAIN_PIGEON_ID = 0; // FIXME Set Pigeon ID
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 12; 
