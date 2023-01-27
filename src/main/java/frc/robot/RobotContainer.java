@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.commands.AutoDrive;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveDirection;
+import frc.robot.commands.DriveDistance;
+import frc.robot.commands.DriveDistance2;
 import frc.robot.commands.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -61,6 +63,8 @@ public class RobotContainer {
     backButton.onTrue(new ZeroGyroscope(m_drivebase));
     xbox0.y().onTrue(new AutoDrive(m_drivebase));
     xbox0.x().whileTrue(new DriveDirection(m_drivebase, 0.0, 0.5, 0.0));
+    xbox0.b().onTrue(new DriveDistance2(m_drivebase, 1.0, 0.0, 5.0));
+
   }
 
   /**
