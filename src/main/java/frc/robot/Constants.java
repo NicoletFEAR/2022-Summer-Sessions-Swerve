@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import frc.robot.subsystems.DrivetrainSubsystem;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -58,4 +61,17 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 15; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 5; 
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(34.12+90);
+
+    public static final double MAX_ACCELERATION_METERS_PER_SEC_SQUARED = 3;
+
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+
+    public static final double PX_CONTROLLER = 0;
+
+    public static final double PY_CONTROLLER = 0;
+
+    public static final double PTHETA_CONTROLLER = 0;
+
+    public static final Constraints THETA_CONTROLLER_CONSTRAINTS = null;
+
 }
