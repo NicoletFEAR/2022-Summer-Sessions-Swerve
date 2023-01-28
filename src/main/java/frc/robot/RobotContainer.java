@@ -16,9 +16,10 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveDirection;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveDistance2;
+import frc.robot.commands.TrackingTags;
 import frc.robot.commands.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
-
+import frc.robot.subsystems.AprilTag_Auto;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -28,6 +29,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   final static DrivetrainSubsystem m_drivebase = new DrivetrainSubsystem();
+  public final static AprilTag_Auto m_AprilTag = new AprilTag_Auto("limelight");
   static final CommandXboxController xbox0 = new CommandXboxController(0);
   Trigger backButton = xbox0.back();
   
@@ -64,7 +66,7 @@ public class RobotContainer {
     xbox0.y().onTrue(new AutoDrive(m_drivebase));
     xbox0.x().whileTrue(new DriveDirection(m_drivebase, 0.0, 0.5, 0.0));
     xbox0.b().onTrue(new DriveDistance2(m_drivebase, 1.0, 0.0, 5.0));
-
+    xbox0.a().whileTrue(new TrackingTags(m_AprilTag, m_drivebase));
   }
 
   /**
