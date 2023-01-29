@@ -14,16 +14,14 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class DriveDirection extends CommandBase {
   DrivetrainSubsystem m_drivebase;
 
-  private final DoubleSupplier m_translationXSupplier;
-  private final DoubleSupplier m_translationYSupplier;
-  private final DoubleSupplier m_rotationSupplier;
+  private final double xSpeed, ySpeed, rotation;
 
   /** Creates a new ExitCommunity. */
   public DriveDirection(DrivetrainSubsystem m_drivebase, double xSpeed, double ySpeed, double rotation) {
     this.m_drivebase = m_drivebase;
-    m_translationXSupplier = () -> RobotContainer.modifyAxis(xSpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-    m_translationYSupplier = () -> RobotContainer.modifyAxis(ySpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
-    m_rotationSupplier = () -> RobotContainer.modifyAxis(rotation) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+    this.rotation = rotation;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_drivebase);
@@ -40,9 +38,9 @@ public class DriveDirection extends CommandBase {
   public void execute() {
     m_drivebase.drive(
       ChassisSpeeds.fromFieldRelativeSpeeds(
-                        m_translationXSupplier.getAsDouble(),
-                        m_translationYSupplier.getAsDouble(),
-                        m_rotationSupplier.getAsDouble(),
+                        m_drivebase.modifySpeed(xSpeed),
+                        m_drivebase.modifySpeed(ySpeed),
+                        m_drivebase.modifyAngularSpeed(rotation),
                         m_drivebase.getGyroscopeRotation()
                 )
     );

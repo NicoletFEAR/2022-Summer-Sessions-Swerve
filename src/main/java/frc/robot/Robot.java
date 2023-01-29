@@ -57,11 +57,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("Front Right Encoder", m_drivebase.getFrontRightEncoder() * (Math.PI / 180));
-    SmartDashboard.putNumber("Front Left Encoder", m_drivebase.getFrontLeftEncoder() * (Math.PI / 180));
-    SmartDashboard.putNumber("Back Right Encoder", m_drivebase.getBackRightEncoder() * (Math.PI / 180));
-    SmartDashboard.putNumber("Back Left Encoder", m_drivebase.getBackLeftEncoder() * (Math.PI / 180));
-    SmartDashboard.putNumber("Gyroscope Rotation", m_drivebase.getGyroscopeRotation().getDegrees()-180);
 
   }
 

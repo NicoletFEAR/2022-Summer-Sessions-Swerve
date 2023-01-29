@@ -235,6 +235,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return feet * .3048;
   }
 
+//   m_translationXSupplier = () -> RobotContainer.modifyAxis(0.0) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+
+  public double modifySpeed(double speed) {
+        return RobotContainer.modifyAxis(speed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
+  }
+
+  public double modifyAngularSpeed(double speed) {
+        return RobotContainer.modifyAxis(speed) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
+  }
+
   /**
    * Positive x is right, positive y is forward. Use with .withTimeout() in SequentialCommandGroup to drive. 
    * Converts doubles to DoubleSuppliers so they can be put in ChassisSpeeds.
@@ -244,14 +254,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * @param rotation
    */
   public void driveDirection(double xSpeed, double ySpeed, double rotation) {
+
         DoubleSupplier m_translationXSupplier = () -> RobotContainer.modifyAxis(xSpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
         DoubleSupplier m_translationYSupplier = () -> RobotContainer.modifyAxis(ySpeed) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND;
         DoubleSupplier m_rotationSupplier = () -> RobotContainer.modifyAxis(rotation) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 
         m_chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                        m_translationXSupplier.getAsDouble(),
-                        m_translationYSupplier.getAsDouble(),
-                        m_rotationSupplier.getAsDouble(),
+                        modifySpeed(xSpeed),
+                        modifySpeed(ySpeed),
+                        modifyAngularSpeed(rotation),
                         getGyroscopeRotation()
         );
   }
