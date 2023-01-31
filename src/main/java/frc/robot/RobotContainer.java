@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.commands.AutoDrive;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveDirection;
-import frc.robot.commands.DriveDistance;
-import frc.robot.commands.DriveDistance2;
+// import frc.robot.commands.DriveDistance;
+// import frc.robot.commands.DriveDistance2;
 import frc.robot.commands.TrackingTags;
 import frc.robot.commands.ZeroGyroscope;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -43,12 +43,12 @@ public class RobotContainer {
     //  Left stick Y axis -> forward and backwards movement
     //  Left stick X axis -> left and right movement
     //  Right stick X axis -> rotation
-    m_drivebase.setDefaultCommand(new DefaultDriveCommand(
-            m_drivebase,
-            () -> modifyAxis(xbox0.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> modifyAxis(xbox0.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> modifyAxis(xbox0.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-    ));
+    // m_drivebase.setDefaultCommand(new DefaultDriveCommand(
+    //         m_drivebase,
+    //         () -> modifyAxis(xbox0.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    //         () -> modifyAxis(xbox0.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    //         () -> modifyAxis(xbox0.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+    // ));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -63,11 +63,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     backButton.onTrue(new ZeroGyroscope(m_drivebase));
-    //xbox0.y().onTrue(new AutoDrive(m_drivebase));
-    //xbox0.x().whileTrue(new DriveDirection(m_drivebase, 0.0, 0.5, 0.0));
-    //xbox0.b().onTrue(new DriveDistance2(m_drivebase, 1.0, 0.0, 5.0));
-    //xbox0.a().whileTrue(new TrackingTags(m_AprilTag, m_drivebase));
-  }
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
