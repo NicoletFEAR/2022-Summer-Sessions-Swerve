@@ -27,6 +27,7 @@ public class TrackingTags extends CommandBase {
     
     addRequirements(m_APTag, m_driveTrain);
   }
+  
 
   // Called when the command is initially scheduled.
   @Override
@@ -39,12 +40,14 @@ public class TrackingTags extends CommandBase {
     if(Math.abs(m_APTag.getX())>1.0){
      xSpeed = m_APTag.getX()/45;
     }
-    if(m_APTag.getA()==0){}
-    else if(m_APTag.getA()>0.9){
-      ySpeed = 0.3;
+    if(m_APTag.getA()>0.9&&m_APTag.getA()!=0){
+      ySpeed = 0.5;
     }
-    else if(m_APTag.getA()<0.8){
-      ySpeed = -0.3;
+    else if(m_APTag.getA()<0.8&&m_APTag.getA()!=0){
+      ySpeed = -0.5;
+    }
+    else{
+      ySpeed = 0.0;
     }
     
 

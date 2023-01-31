@@ -43,12 +43,12 @@ public class RobotContainer {
     //  Left stick Y axis -> forward and backwards movement
     //  Left stick X axis -> left and right movement
     //  Right stick X axis -> rotation
-    // m_drivebase.setDefaultCommand(new DefaultDriveCommand(
-    //         m_drivebase,
-    //         () -> modifyAxis(xbox0.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //         () -> modifyAxis(xbox0.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //         () -> modifyAxis(xbox0.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-    // ));
+    m_drivebase.setDefaultCommand(new DefaultDriveCommand(
+            m_drivebase,
+            () -> modifyAxis(xbox0.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+            () -> modifyAxis(xbox0.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+            () -> modifyAxis(xbox0.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+    ));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -63,6 +63,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     backButton.onTrue(new ZeroGyroscope(m_drivebase));
+    xbox0.a().whileTrue(new TrackingTags(m_AprilTag, m_drivebase));
     }
 
   /**
