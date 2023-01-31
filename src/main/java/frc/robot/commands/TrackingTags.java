@@ -13,6 +13,8 @@ public class TrackingTags extends CommandBase {
   AprilTag_Auto m_APTag;
   DrivetrainSubsystem m_DriveTrain;
 
+  double xSpeed, ySpeed;
+
   public TrackingTags(AprilTag_Auto ap, DrivetrainSubsystem dts) {
     m_APTag = ap;
     m_DriveTrain = dts;
@@ -27,12 +29,21 @@ public class TrackingTags extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_APTag.getX()>Constants.APRILTAG_CENTERING_DEADZONE){
-      m_DriveTrain.driveDirection(0, 0.3, 0);
+
+    if(Math.abs(m_APTag.getX())>1.0){
+     xSpeed = m_APTag.getX()/45;
     }
-    else if(m_APTag.getX()<-Constants.APRILTAG_CENTERING_DEADZONE){
-      m_DriveTrain.driveDirection(0, -0.3, 0);
+    if(m_APTag.getA()==0){}
+    else if(m_APTag.getA()>0.9){
+      ySpeed = 0.3;
     }
+    else if(m_APTag.getA()<0.8){
+      ySpeed = -0.3;
+    }
+    
+
+    System.out.println(m_APTag.getA());
+    m_DriveTrain.driveDirection(ySpeed, xSpeed, 0);
 
   }
 

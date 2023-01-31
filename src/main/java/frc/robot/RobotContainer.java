@@ -63,10 +63,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
     backButton.onTrue(new ZeroGyroscope(m_drivebase));
-    xbox0.y().onTrue(new AutoDrive(m_drivebase));
-    xbox0.x().whileTrue(new DriveDirection(m_drivebase, 0.0, 0.5, 0.0));
-    xbox0.b().onTrue(new DriveDistance2(m_drivebase, 1.0, 0.0, 5.0));
-    xbox0.a().whileTrue(new TrackingTags(m_AprilTag, m_drivebase));
+    //xbox0.y().onTrue(new AutoDrive(m_drivebase));
+    //xbox0.x().whileTrue(new DriveDirection(m_drivebase, 0.0, 0.5, 0.0));
+    //xbox0.b().onTrue(new DriveDistance2(m_drivebase, 1.0, 0.0, 5.0));
+    //xbox0.a().whileTrue(new TrackingTags(m_AprilTag, m_drivebase));
   }
 
   /**
