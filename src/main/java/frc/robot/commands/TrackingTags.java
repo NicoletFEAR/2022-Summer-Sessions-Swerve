@@ -40,11 +40,11 @@ public class TrackingTags extends CommandBase {
     if(Math.abs(m_APTag.getX())>1.0){
      xSpeed = m_APTag.getX()/45;
     }
-    if(m_APTag.getA()>0.9&&m_APTag.getA()!=0){
-      ySpeed = 0.5;
+    if(m_APTag.getA()>1.05&&m_APTag.getA()!=0){
+      ySpeed = (m_APTag.getA()-1)/3;
     }
-    else if(m_APTag.getA()<0.8&&m_APTag.getA()!=0){
-      ySpeed = -0.5;
+    else if(m_APTag.getA()<0.95&&m_APTag.getA()!=0){
+      ySpeed = -(1-(m_APTag.getA()/3));
     }
     else{
       ySpeed = 0.0;
