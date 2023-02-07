@@ -24,15 +24,7 @@ public class AprilTag_Auto extends SubsystemBase {
 
   // Change this to match the name of your camera
 
-  // PID constants should be tuned per robot
-  final double LINEAR_P = 0.1;
-  final double LINEAR_D = 0.0;
-  PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
-
-  final double ANGULAR_P = 0.01;
-  final double ANGULAR_D = 0.0;
-  PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
-  public double angle;
+   public double angle;
   public double area;
   public int fidId;
 
@@ -67,6 +59,30 @@ public class AprilTag_Auto extends SubsystemBase {
 
   public double getV() {
     return m_visV.getDouble(0.0);
+  }
+
+  public boolean atPositionX(double tx, double dz){
+    boolean atPos = false;
+    if((this.getX() >= tx-dz && this.getX() <= tx+dz)){
+      atPos = true;
+    }
+    return atPos;
+  }
+
+  public boolean atPositionY(double ta, double dz){
+    boolean atPos = false;
+    if((this.getA() >= ta-dz && this.getA() <= ta+dz)){
+      atPos = true;
+    }
+    return atPos;
+  }
+
+  public boolean atPositionXY(double tx, double ta, double dz){
+    boolean atPos = false;
+    if((this.getX() >= tx-dz && this.getX() <= tx+dz) && (this.getA() >= ta-dz && this.getA() <= ta+dz)){
+      atPos = true;
+    }
+    return atPos;
   }
 
   @Override

@@ -13,16 +13,23 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.AprilTag_Auto;
-public class TrackingTags extends CommandBase {
+public class GoPositionFromTag extends CommandBase {
   /** Creates a new TrackingTags. */
   AprilTag_Auto m_APTag;
   DrivetrainSubsystem m_driveTrain;
 
   double xSpeed, ySpeed;
 
-  public TrackingTags(AprilTag_Auto ap, DrivetrainSubsystem dts) {
+  double targetA;
+  double targetX;
+  double deadZone;
+
+  public GoPositionFromTag(AprilTag_Auto ap, DrivetrainSubsystem dts, double ta, double tx, double dz) {
     m_APTag = RobotContainer.m_AprilTag;
     m_driveTrain = dts;
+    targetA = ta;
+    targetX = tx;
+    deadZone = dz;
   // Use addRequirements() here to declare subsystem dependencies.
     
     addRequirements(m_APTag, m_driveTrain);
@@ -37,13 +44,24 @@ public class TrackingTags extends CommandBase {
   @Override
   public void execute() {
 
-    if(Math.abs(m_APTag.getX())>1.0){
-     xSpeed = m_APTag.getX()/24;
+    // if(Math.abs(m_APTag.getX())>targetX){
+    //  xSpeed = m_APTag.getX()/24;
+    // }
+    if(m_APTag.getX()>targetX&&m_APTag.getX()!=0){
+      xSpeed = (m_APTag.getX()-1)/24;
+
     }
-    if(m_APTag.getA()>1.05&&m_APTag.getA()!=0){
+    else if(m_APTag.getX()<targetX&&m_APTag.getX()!=0){
+      xSpeed = -(1-(m_APTag.getX()/24));
+    }
+    else{
+      xSpeed = 0.0;
+    }
+
+    if(m_APTag.getA()>targetA+deadZone&&m_APTag.getA()!=0){
       ySpeed = (m_APTag.getA()-1)/3;
     }
-    else if(m_APTag.getA()<0.95&&m_APTag.getA()!=0){
+    else if(m_APTag.getA()<targetA-deadZone&&m_APTag.getA()!=0){
       ySpeed = -(1-(m_APTag.getA()/3));
     }
     else{
@@ -68,6 +86,6 @@ public class TrackingTags extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_APTag.atPositionXY(targetX, targetA, deadZone);
   }
 }

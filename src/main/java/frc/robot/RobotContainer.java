@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.button.*;
 import frc.robot.commands.AutoDrive;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveDirection;
+import frc.robot.commands.GoPositionFromTag;
+import frc.robot.commands.GoPositionFromTagX;
 // import frc.robot.commands.DriveDistance;
 // import frc.robot.commands.DriveDistance2;
 import frc.robot.commands.TrackingTags;
@@ -64,6 +66,8 @@ public class RobotContainer {
     // Back button zeros the gyroscope
     backButton.onTrue(new ZeroGyroscope(m_drivebase));
     xbox0.a().whileTrue(new TrackingTags(m_AprilTag, m_drivebase));
+    xbox0.b().onTrue(new GoPositionFromTag(m_AprilTag, m_drivebase, 1.0, 1.0, 0.05));
+    xbox0.x().onTrue(new GoPositionFromTagX(m_AprilTag, m_drivebase, 0.5, 0.05));
     }
 
   /**
